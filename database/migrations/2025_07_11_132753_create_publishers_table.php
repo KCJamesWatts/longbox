@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('publishers', function (Blueprint $table) {
             $table->uuid('id')->unique()->primary();
+            $table->foreignId('parent_id')->nullable()->constrained('publishers')->nullOnDelete();
             $table->string('name');
             $table->timestamps();
             $table->softDeletes();

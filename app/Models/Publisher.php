@@ -11,4 +11,34 @@ class Publisher extends Model
 {
     /** @use HasFactory<\Database\Factories\PublisherFactory> */
     use HasFactory, HasUuids, SoftDeletes;
+
+    protected $fillable = [
+        'name',
+    ];
+
+    public function imprints()
+    {
+        return $this->hasMany(Publisher::class, 'parent_id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Publisher::class, 'parent_id');
+    }
+
+    public function addImprint(Publisher|array $imprint): Publisher
+    {
+        if (is_array($imprint)) {
+            $imprint = Publisher::create($imprint);
+        }
+
+        if ($imprint->id === $this->id) {
+            throw new \InvalidArgumentException("A publisher cannot be its own imprint");
+        }
+
+        $imprint->parent()->associate($this);
+        $imprint->save();
+
+        return $imprint;
+    }
 }
