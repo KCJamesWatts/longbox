@@ -108,7 +108,7 @@ describe('Publishers', function () {
     });
 
     describe('Imprints', function() {
-        it('can add a new imprint (from imprint)', function() {
+        it('can add a new imprint (from modal)', function() {
             $publisher = Publisher::factory()->create();
             $imprint = Publisher::factory()->create();
 
@@ -118,7 +118,7 @@ describe('Publishers', function () {
                  ->assertDatabaseHas('publishers', ['id'=>$imprint->id, 'parent_id'=>$publisher->id]);
         });
 
-        it('can add a new imprint (from array of attributes)', function() {
+        it('can add a new imprint (from array)', function() {
             $publisher = Publisher::factory()->create();
             $imprintData = [ 'name' => 'Imprint from Data' ];
 
