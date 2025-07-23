@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Publisher extends Model
 {
-    /** @use HasFactory<\Database\Factories\PublisherFactory> */
     use HasFactory, HasUuids, SoftDeletes;
 
     protected $fillable = [

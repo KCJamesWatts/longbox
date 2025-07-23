@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('publishers', function (Blueprint $table) {
+        Schema::create('series', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignId('parent_id')->nullable()->constrained('publishers')->nullOnDelete();
             $table->string('name');
             $table->timestamps();
             $table->softDeletes();
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('publishers');
+        Schema::dropIfExists('series');
     }
 };
