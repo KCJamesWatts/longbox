@@ -15,16 +15,6 @@ class Publisher extends Model
         'name',
     ];
 
-    public function imprints()
-    {
-        return $this->hasMany(Publisher::class, 'parent_id');
-    }
-
-    public function parent()
-    {
-        return $this->belongsTo(Publisher::class, 'parent_id');
-    }
-
     public function addImprint(Publisher|array $imprint): Publisher
     {
         if (is_array($imprint)) {
@@ -39,5 +29,20 @@ class Publisher extends Model
         $imprint->save();
 
         return $imprint;
+    }
+
+    public function imprints()
+    {
+        return $this->hasMany(Publisher::class, 'parent_id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Publisher::class, 'parent_id');
+    }
+
+    public function series()
+    {
+        return $this->hasMany(Series::class);
     }
 }

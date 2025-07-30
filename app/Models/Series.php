@@ -14,4 +14,14 @@ class Series extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function publisher()
+    {
+        return $this->belongsTo(Publisher::class);
+    }
+
+    public function setPublisherAttribute(Publisher $publisher): void
+    {
+        $this->publisher()->associate($publisher);
+    }
 }

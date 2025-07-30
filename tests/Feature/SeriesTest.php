@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Publisher;
 use App\Models\Series;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\DomCrawler\Crawler;
@@ -104,6 +105,29 @@ describe('Series', function () {
                 ->assertRedirect(route('series.list'));
 
             $this->assertSoftDeleted('series', $data);
+        });
+    });
+
+    describe('Publisher', function() {
+        it('can create a series with a publisher', function() {
+            $publisher = Publisher::factory()->create();
+            $series = Series::factory()->create(['name' => 'Spider-Man', 'publisher_id' => $publisher->id]);
+
+            $this->assertDatabaseHas('series', ['id' => $series->id])
+                 ->assertDatabaseHas('publishers', ['id' => $publisher->id])
+                 ->assertDatabaseHas('series', ['id' => $series->id, 'publisher_id' => $publisher->id]);
+        });
+
+        it('can assign a publisher to a series', function() {
+            $publisher = Publisher::factory()->create();
+            
+            $series = Series::factory()->create();
+            $series->publisher = $publisher;
+            $series->save();
+
+            $this->assertDatabaseHas('series', ['id' => $series->id])
+                 ->assertDatabaseHas('publishers', ['id' => $publisher->id])
+                 ->assertDatabaseHas('series', ['id' => $series->id, 'publisher_id' => $publisher->id]);
         });
     });
 });

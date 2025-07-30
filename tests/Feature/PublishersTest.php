@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Publisher;
+use App\Models\Series;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -133,6 +134,15 @@ describe('Publishers', function () {
 
             expect(fn () => $publisher->addImprint($publisher))
                 ->toThrow(\InvalidArgumentException::class);
+        });
+    });
+
+    describe('Series', function() {
+        it('can retrieve the series for a publisher', function() {
+            $publisher = Publisher::factory()->create();
+            $series = Series::factory()->count(10)->create(['publisher_id' => $publisher->id]);
+
+            expect($publisher->series->count())->toBe($series->count());
         });
     });
 });
